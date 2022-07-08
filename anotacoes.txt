@@ -1,0 +1,1 @@
+utilizando o axios para poder fazer a comunicação com a API
