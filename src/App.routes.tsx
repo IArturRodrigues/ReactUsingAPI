@@ -8,8 +8,9 @@ function Router (): JSX.Element {
          <Route path='/' element={<Home />} />
          <Route path='/restaurantes' element={<RestaurantList />} />
          <Route path='/admin' >
-            <Route path='restaurante' element={<AdminRestaurant />} />
-            <Route path='restaurante/novo' element={<AdminFormRestaurant />} />
+            <Route path='restaurantes' element={<AdminRestaurant />} />
+            <Route path='restaurantes/novo' element={<AdminFormRestaurant />} />
+            <Route path='restaurantes/:id' element={<AdminFormRestaurant />} />
          </Route>
       </Routes>
    );

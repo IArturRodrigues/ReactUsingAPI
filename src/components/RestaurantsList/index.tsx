@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 import { IRestaurant } from '@interfaces/IRestaurant';
 
@@ -8,23 +8,38 @@ import Restaurant from './Restaurant';
 import { RestaurantList as SRestaurantList } from './RestaurantList';
 import { IPagination } from '@interfaces/IPagination';
 
+interface ISearchParams {
+   ordening?: string;
+   search?: string;
+}
+
 function RestaurantList (): JSX.Element {
    const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
    const [nextPage, setNextPage] = useState<string>('');
+   const [search, setSearch] = useState<string>('');
+
+   async function fetchData (options: AxiosRequestConfig = {}) {
+      try {
+         const response = await axios.get<IPagination<IRestaurant>>('http://localhost:8000/api/v1/restaurates/', options);
+         console.log(response);
+
+         setRestaurants(response.data.results);
+         setNextPage(response.data.next);
+      } catch (err) {
+         console.error(err);
+      }
+   };
+
+   function searchFor (event: React.FormEvent<HTMLFormElement>) {
+      event.preventDefault();
+      const options = { params: {} as ISearchParams };
+      if (search) {
+         options.params.search = search;
+      }
+      fetchData(options);
+   }
 
    useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const response = await axios.get<IPagination<IRestaurant>>('http://localhost:8000/api/v1/restaurates/');
-            console.log(response);
-
-            setRestaurants(response.data.results);
-            setNextPage(response.data.next);
-         } catch (err) {
-            console.error(err);
-         }
-      };
-
       fetchData();
       // fetchData().catch(console.error);
    }, []);
@@ -42,6 +57,14 @@ function RestaurantList (): JSX.Element {
    return (
       <SRestaurantList>
          <h1>Os restaurantes mais <em>bacanas</em>!</h1>
+         <form onSubmit={searchFor}>
+            <input
+               type="text"
+               value={search}
+               onChange={e => setSearch(e.target.value)}
+            />
+            <button type="submit">buscar</button>
+         </form>
          {restaurants?.map(restaurant => <Restaurant restaurant={restaurant} key={restaurant.id} />)}
          {nextPage && <button onClick={seeMore}>Ver mais</button>}
       </SRestaurantList>

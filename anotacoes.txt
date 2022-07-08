@@ -1,5 +1,20 @@
 utilizando o axios para poder fazer a comunicação com a API
 
+formas de fazer requisições get com parâmetros {
+   Podemos concatenar direto na url, dessa forma {
+      axios.get<IPaginacao<IRestaurante>>('http://localhost:8000/api/v1/restaurantes/?ordering=nome&search=neo');
+   }
+   ou
+   {
+      axios.get<IPaginacao<IRestaurante>>('http://localhost:8000/api/v1/restaurantes/', {
+         params: {
+         ordering: 'nome',
+         search: 'neo'
+         }
+      });
+   }
+}
+
 MUI {
    uma lib que utiliza o material design (assim como o flutter), é uma lib com componentes já feitos
 
