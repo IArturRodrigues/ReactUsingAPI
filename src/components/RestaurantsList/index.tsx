@@ -17,7 +17,7 @@ function RestaurantList (): JSX.Element {
          try {
             const response = await axios.get<IPagination<IRestaurant>>('http://localhost:8000/api/v1/restaurates/');
             console.log(response);
-   
+
             setRestaurants(response.data.results);
             setNextPage(response.data.next);
          } catch (err) {
@@ -47,6 +47,44 @@ function RestaurantList (): JSX.Element {
       </SRestaurantList>
    );
 }
+
+export default RestaurantList;
+
+// function HomeWork () {
+//    const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
+//    const [nextPage, setNextPage] = useState<string>('');
+//    const [previousPage, setPreviousPage] = useState<string>('');
+   
+//    async function fetchData (url: string) {
+//       try {
+//          const response = await axios.get<IPagination<IRestaurant>>(url);
+//          // console.log(response);
+//          setRestaurants(response.data.results);
+//          setNextPage(response.data.next);
+//          setPreviousPage(response.data.previous);
+//       } catch (err) {
+//          console.error(err);
+//       }
+//    }
+   
+//    useEffect(() => {
+//       fetchData('http://localhost:8000/api/v1/restaurates/');
+//       // fetchData().catch(console.error);
+//    }, []);
+   
+//    return (
+//       <SRestaurantList>
+//          <h1>Os restaurantes mais <em>bacanas</em>!</h1>
+//          {restaurants?.map(item => <Restaurant restaurant={item} key={item.id} />)}
+//          {<button onClick={() => fetchData(previousPage)} disabled={!previousPage}>
+//             Página Anterior
+//          </button>}
+//          {<button onClick={() => fetchData(nextPage)} disabled={!nextPage}>
+//             Próxima página
+//          </button>}
+//       </SRestaurantList>
+//    );
+// }
 
 // const restaurants: IRestaurant[] = [
 //    {
@@ -132,5 +170,3 @@ function RestaurantList (): JSX.Element {
 //       ]
 //    }
 // ];
-
-export default RestaurantList;

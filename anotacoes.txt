@@ -1,1 +1,9 @@
 utilizando o axios para poder fazer a comunicação com a API
+
+MUI {
+   uma lib que utiliza o material design (assim como o flutter), é uma lib com componentes já feitos
+
+   link {
+      https://mui.com/pt/material-ui/getting-started/installation/
+   }
+}
