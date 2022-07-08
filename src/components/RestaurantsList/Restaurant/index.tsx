@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+
+import http from '@http';
 
 import { IFood, IRestaurant } from '@interfaces/IRestaurant';
 
@@ -17,7 +18,7 @@ function Restaurant ({ restaurant }: RestaurantProps): JSX.Element {
 
    useEffect(() => {
       const fetchData = async () => {
-         const response = await axios.get<IFood[]>(`http://locahost:8000/api/v1/restaurantes/${restaurant.id}/pratos/`);
+         const response = await http.get<IFood[]>(`v1/restaurantes/${restaurant.id}/pratos/`);
          setFoods(response.data);
       };
       fetchData();

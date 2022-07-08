@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
+
+import http from '@http';
 
 import { IRestaurant } from '@interfaces/IRestaurant';
+import { IPagination } from '@interfaces/IPagination';
 
 import Restaurant from './Restaurant';
 
 import { RestaurantList as SRestaurantList } from './RestaurantList';
-import { IPagination } from '@interfaces/IPagination';
 
 interface ISearchParams {
-   ordening?: string;
+   ordering?: string;
    search?: string;
 }
 
@@ -17,10 +19,11 @@ function RestaurantList (): JSX.Element {
    const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
    const [nextPage, setNextPage] = useState<string>('');
    const [search, setSearch] = useState<string>('');
+   const [ordering, setOrdering] = useState<string>('');
 
    async function fetchData (options: AxiosRequestConfig = {}) {
       try {
-         const response = await axios.get<IPagination<IRestaurant>>('http://localhost:8000/api/v1/restaurates/', options);
+         const response = await http.get<IPagination<IRestaurant>>('v1/restaurantes/', options);
          console.log(response);
 
          setRestaurants(response.data.results);
@@ -36,6 +39,9 @@ function RestaurantList (): JSX.Element {
       if (search) {
          options.params.search = search;
       }
+      if (ordering) {
+         options.params.ordering = ordering;
+      }
       fetchData(options);
    }
 
@@ -46,7 +52,7 @@ function RestaurantList (): JSX.Element {
 
    async function seeMore () {
       try {
-         const response = await axios.get<IPagination<IRestaurant>>(nextPage);
+         const response = await http.get<IPagination<IRestaurant>>(nextPage);
          setRestaurants([...restaurants, ...response.data.results]);
          setNextPage(response.data.next);
       } catch (err) {
@@ -58,12 +64,29 @@ function RestaurantList (): JSX.Element {
       <SRestaurantList>
          <h1>Os restaurantes mais <em>bacanas</em>!</h1>
          <form onSubmit={searchFor}>
-            <input
-               type="text"
-               value={search}
-               onChange={e => setSearch(e.target.value)}
-            />
-            <button type="submit">buscar</button>
+            <div>
+               <input
+                  type="text"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+               />
+            </div>
+            <div>
+               <label htmlFor="select-ordering"></label>
+               <select
+                  name="select-ordering"
+                  id="select-ordering"
+                  value={ordering}
+                  onChange={e => setOrdering(e.target.value)}
+               >
+                  <option value="">Padrão</option>
+                  <option value="id">Por ID</option>
+                  <option value="nome">Por Nome</option>
+               </select>
+            </div>
+            <div>
+               <button type="submit">buscar</button>
+            </div>
          </form>
          {restaurants?.map(restaurant => <Restaurant restaurant={restaurant} key={restaurant.id} />)}
          {nextPage && <button onClick={seeMore}>Ver mais</button>}
