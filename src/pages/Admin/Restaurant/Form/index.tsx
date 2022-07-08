@@ -39,21 +39,23 @@ function FormRestaurant (): JSX.Element {
    }
 
    return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-         <Typography component='h1' variant='h6' >Formulário de Restaurantes</Typography>
-         <Box component='form' onSubmit={onSubmitForm} >
-            <TextField
-               id='standard-basic'
-               label='Nome do restaurante'
-               variant='standard'
-               value={restaurantName}
-               onChange={e => setRestaurantName(e.target.value)}
-               fullWidth
-               required
-            />
-            <Button sx={{ marginTop: 1 }} type='submit' variant='outlined' fullWidth >Salvar</Button>
+      <>
+         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }} >
+            <Typography component='h1' variant='h6' >Formulário de Restaurantes</Typography>
+            <Box component='form' sx={{ width: '100%' }} onSubmit={onSubmitForm} >
+               <TextField
+                  id='standard-basic'
+                  label='Nome do restaurante'
+                  variant='standard'
+                  value={restaurantName}
+                  onChange={e => setRestaurantName(e.target.value)}
+                  fullWidth
+                  required
+               />
+               <Button sx={{ marginTop: 1 }} type='submit' variant='outlined' fullWidth >Salvar</Button>
+            </Box>
          </Box>
-      </Box>
+      </>
    );
 }
 

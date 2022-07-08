@@ -1,3 +1,8 @@
+export interface ITag {
+   value: string;
+   id: number;
+}
+
 export interface IFood {
    id: number;
    nome: string;

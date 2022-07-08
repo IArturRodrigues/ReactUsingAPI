@@ -4,16 +4,16 @@ import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
 
 import http from '@http';
 
-import { IRestaurant } from '@interfaces/IRestaurant';
+import { IFood } from '@interfaces/IRestaurant';
 
-function AdminRestaurant (): JSX.Element {
-   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
+function AdminFood (): JSX.Element {
+   const [foods, setFoods] = useState<IFood[]>([]);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await http.get<IRestaurant[]>('v2/restaurantes/');
-            setRestaurants(response.data);
+            const response = await http.get<IFood[]>('v2/pratos/');
+            setFoods(response.data);
          } catch (err) {
             console.error(err);
          }
@@ -21,11 +21,10 @@ function AdminRestaurant (): JSX.Element {
       fetchData();
    }, []);
 
-   async function deleteRestaurant (restaurantId: number) {
-      await http.delete(`v2/${restaurantId}/`);
-      const newRestaurantList = restaurants.filter(restaurant => restaurant.id !== restaurantId);
-      setRestaurants([...newRestaurantList]);
-      // setRestaurants(newRestaurantList);
+   async function deleteFood (foodId: number) {
+      await http.delete(`v2/${foodId}/`);
+      const newFoodList = foods.filter(food => food.id !== foodId);
+      setFoods([...newFoodList]);
    }
 
    return (
@@ -37,6 +36,12 @@ function AdminRestaurant (): JSX.Element {
                      Nome
                   </TableCell>
                   <TableCell>
+                     Tag
+                  </TableCell>
+                  <TableCell>
+                     Imagem
+                  </TableCell>
+                  <TableCell>
                      Editar
                   </TableCell>
                   <TableCell>
@@ -45,19 +50,22 @@ function AdminRestaurant (): JSX.Element {
                </TableRow>
             </TableHead>
             <TableBody>
-               {restaurants.map(restaurant => (
-                  <TableRow key={restaurant.id}>
+               {foods.map(food => (
+                  <TableRow key={food.id}>
                      <TableCell>
-                        {restaurant.nome}
+                        {food.nome}
                      </TableCell>
                      <TableCell>
-                        [ <Link to={`/admin/restaurantes/${restaurant.id}`}> editar </Link> ]
+                        [ <a href={food.imagem} target="_blank" rel="noreferrer">ver imagem</a> ]
+                     </TableCell>
+                     <TableCell>
+                        [ <Link to={`/admin/pratos/${food.id}`}> editar </Link> ]
                      </TableCell>
                      <TableCell>
                         <Button
                            variant="outlined"
                            color="error"
-                           onClick={() => deleteRestaurant(restaurant.id)}
+                           onClick={() => deleteFood(food.id)}
                         >
                            EXCLUIR
                         </Button>
@@ -70,4 +78,4 @@ function AdminRestaurant (): JSX.Element {
    );
 }
 
-export default AdminRestaurant;
+export default AdminFood;
