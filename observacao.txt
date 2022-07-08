@@ -1,0 +1,5 @@
+Esse projeto esta sendo iniciado sem o backend
+quando puder baixar docker ir no link {
+   atividade para rodar API com docker: https://cursos.alura.com.br/course/react-integrando-projeto-react-apis/task/103948
+   repositório API: https://github.com/alura-cursos/restaurantes_api
+}
